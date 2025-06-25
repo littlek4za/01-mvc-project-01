@@ -52,25 +52,25 @@ ON UPDATE NO ACTION ON DELETE NO ACTION
 
 -- create user and insert the created id into employee table while creating employee
 INSERT INTO `user` (`username`,`password`,`enable`) VALUES
-('Amy','$2a$10$45HY3IrjHMth3I6zCl25MujYNdzeRccRfTwbfvfNBfuxafD53rt.e',1);
+('Amy','$2a$10$h6qAkXp7E2CLS9GieJBw2Oasqyoc3hGScY3bNA3KN/rGJzkLHLPKu',1);
 SET @user_id = LAST_INSERT_ID();
 INSERT INTO `employee` (`first_name`, `last_name`, `email`, `user_id`) VALUES
 ('Chan', 'Amy', 'amyc@testmail.com',@user_id);
 
 INSERT INTO `user` (`username`,`password`,`enable`) VALUES
-('Zoe','$2a$10$45HY3IrjHMth3I6zCl25MujYNdzeRccRfTwbfvfNBfuxafD53rt.e',1);
+('Zoe','$2a$10$h6qAkXp7E2CLS9GieJBw2Oasqyoc3hGScY3bNA3KN/rGJzkLHLPKu',1);
 SET @user_id = LAST_INSERT_ID();
 INSERT INTO `employee` (`first_name`, `last_name`, `email`, `user_id`) VALUES
 ('Man','Zoe','zoem@testmail.com', @user_id);
 
 INSERT INTO `user` (`username`,`password`,`enable`) VALUES
-('Ian','$2a$10$45HY3IrjHMth3I6zCl25MujYNdzeRccRfTwbfvfNBfuxafD53rt.e',1);
+('Ian','$2a$10$h6qAkXp7E2CLS9GieJBw2Oasqyoc3hGScY3bNA3KN/rGJzkLHLPKu',1);
 SET @user_id = LAST_INSERT_ID();
 INSERT INTO `employee` (`first_name`, `last_name`, `email`, `user_id`) VALUES
 ('Yit','Ian','iany@testmail.com', @user_id);
 
 INSERT INTO `user` (`username`,`password`,`enable`) VALUES
-('Ken','$2a$10$45HY3IrjHMth3I6zCl25MujYNdzeRccRfTwbfvfNBfuxafD53rt.e',1);
+('Ken','$2a$10$h6qAkXp7E2CLS9GieJBw2Oasqyoc3hGScY3bNA3KN/rGJzkLHLPKu',1);
 SET @user_id = LAST_INSERT_ID();
 INSERT INTO `employee` (`first_name`, `last_name`, `email`, `user_id`) VALUES
 ('Wong','Ken','kenw@testmail.com', @user_id);
@@ -87,4 +87,5 @@ INSERT INTO `users_roles` (`user_id`,`role_id`) VALUES
 (2, 2),
 (3, 1),
 (3, 2),
-(3, 3);
+(3, 3),
+(4, 1);
