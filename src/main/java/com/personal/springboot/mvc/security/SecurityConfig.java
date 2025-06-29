@@ -7,6 +7,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -44,17 +45,23 @@ public class SecurityConfig {
 //    }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
+    public SecurityFilterChain filterChain(
+            HttpSecurity http,
+            UserService userService,
+            AuthenticationSuccessHandler customAuthenticationSuccessHandler
+    ) throws Exception {
         http.authenticationProvider(authenticationProvider(userService)) //need to plug in the authenticationProvider to spring security manually if not spring might not know to use it
                 .authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers("/").hasRole("EMPLOYEE")
+                        .requestMatchers("/register/**").permitAll()
                         .anyRequest().authenticated()
                 ).formLogin(form->
                 form
                         .loginPage("/showLoginPage")
-                    .loginProcessingUrl("/authenticateTheUser")
-                    .permitAll()
+                        .loginProcessingUrl("/authenticateTheUser")
+                        .successHandler(customAuthenticationSuccessHandler)
+                        .permitAll()
                 ).logout(logout -> logout.permitAll()
                 ).exceptionHandling(configurer ->
                         configurer.accessDeniedPage("/access-denied")

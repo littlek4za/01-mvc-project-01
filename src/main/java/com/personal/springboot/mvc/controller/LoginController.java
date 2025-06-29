@@ -13,6 +13,6 @@ public class LoginController {
 
     @GetMapping("/access-denied")
     public String showAccessDenied(){
-        return "access-denied";
+        return "access-denied-page";
     }
 }

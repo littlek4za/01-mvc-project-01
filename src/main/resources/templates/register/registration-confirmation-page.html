@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Confirmation Page</title>
+</head>
+<body>
+
+<h1>User Registered</h1>
+
+<!--display info-->
+<ul>
+  <li th:text="'User name: ' + ${webUser.userName}"></li>
+  <li th:text="'First name: ' + ${webUser.firstName}"></li>
+  <li th:text="'Last name: ' + ${webUser.lastName}"></li>
+  <li th:text="'Email: ' + ${webUser.email}"></li>
+
+</ul>
+
+<hr>
+
+<a th:href="@{/showLoginPage}">Proceed to Login</a>
+
+</body>
+</html>

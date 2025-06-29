@@ -4,7 +4,6 @@ import com.personal.springboot.mvc.entity.Role;
 import com.personal.springboot.mvc.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -12,7 +11,7 @@ public class UserDAOImpl implements UserDAO {
 
     private EntityManager entityManager;
 
-    public UserDAOImpl(EntityManager theEntityManager){
+    public UserDAOImpl(EntityManager theEntityManager) {
         entityManager = theEntityManager;
     }
 
@@ -32,5 +31,11 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return theUser;
+    }
+
+    @Override
+    public void save(User theUser) {
+
+        entityManager.persist(theUser);
     }
 }

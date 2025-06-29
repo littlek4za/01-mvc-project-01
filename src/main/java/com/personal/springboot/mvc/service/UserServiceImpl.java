@@ -1,17 +1,23 @@
 package com.personal.springboot.mvc.service;
 
+import com.personal.springboot.mvc.dao.EmployeeDAO;
 import com.personal.springboot.mvc.dao.RoleDAO;
 import com.personal.springboot.mvc.dao.UserDAO;
+import com.personal.springboot.mvc.entity.Employee;
 import com.personal.springboot.mvc.entity.User;
 import com.personal.springboot.mvc.entity.Role;
+import com.personal.springboot.mvc.user.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -20,11 +26,15 @@ public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO;
     private RoleDAO roleDAO;
+    private EmployeeDAO employeeDAO;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO){
+    public UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO, EmployeeDAO employeeDAO, BCryptPasswordEncoder passwordEncoder){
         this.userDAO = userDAO;
         this.roleDAO = roleDAO;
+        this.employeeDAO = employeeDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -33,6 +43,32 @@ public class UserServiceImpl implements UserService {
         return userDAO.findByUserName(userName);
     }
 
+    @Transactional
+    @Override
+    public void save(WebUser webUser) {
+        User user = new User();
+        Employee employee = new Employee();
+
+        user.setUserName(webUser.getUserName());
+        user.setPassword(passwordEncoder.encode(webUser.getPassword()));
+        user.setEnable(true);
+        employee.setFirstName(webUser.getFirstName());
+        employee.setLastName(webUser.getLastName());
+        employee.setEmail(webUser.getEmail());
+
+        // assign default Role
+        user.setRoles((Arrays.asList(roleDAO.findRoleByName("ROLE_EMPLOYEE"))));
+
+        // save user first to generate user ID
+        userDAO.save(user);
+
+        // assign user to employee
+        employee.setUser(user);
+
+        //save employee
+        employeeDAO.save(employee);
+
+    }
 
     @Override
     // when someone tries to log in, Spring Security will call this method
@@ -44,7 +80,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         //tell spring the user details, need username, password and roles/authorities
-        //return new user(not custom entity user, its a spring built in class - user)
+        //return new user(not custom entity user, it is a spring built in class - user)
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),
                 user.getPassword(),

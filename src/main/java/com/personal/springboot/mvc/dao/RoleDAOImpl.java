@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public class RoleDAOImpl implements RoleDAO{
 
-    @Autowired
     private EntityManager entityManager;
 
     public RoleDAOImpl (EntityManager theEntityManager){
@@ -34,5 +33,22 @@ public class RoleDAOImpl implements RoleDAO{
         }
 
         return theRoles;
+    }
+
+    @Override
+    public Role findRoleByName(String theRoleName) {
+        TypedQuery<Role> theQuery = entityManager.createQuery(
+                "FROM Role WHERE name=:roleName", Role.class);
+        theQuery.setParameter("roleName", theRoleName);
+
+        Role theRole = null;
+
+        try {
+            theRole = theQuery.getSingleResult();
+        } catch (Exception e) {
+            theRole = null;
+        }
+
+        return theRole;
     }
 }
