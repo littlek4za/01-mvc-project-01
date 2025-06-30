@@ -21,23 +21,23 @@ public class UserController {
 
     private UserService userService;
 
-    public UserController(UserService userService){
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/list")
-    public String listUsers(Model theModel){
+    public String listUsers(Model theModel) {
 
         //get all the user + employee info from db
         List<Employee> theEmployees = userService.findAllEmployee();
 
-        theModel.addAttribute("employees",theEmployees);
+        theModel.addAttribute("employees", theEmployees);
 
         return "user/list-employees-page";
     }
 
     @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("employeeId") int theEmployeeId, Model theModel){
+    public String showFormForUpdate(@RequestParam("employeeId") int theEmployeeId, Model theModel) {
 
         //create model attribute to bind form data
         Employee theEmployee = userService.findEmployeeByIdWithUserInfo(theEmployeeId);
@@ -48,16 +48,16 @@ public class UserController {
 
         WebUser existingWebUser = userService.toWebUser(theEmployee);
 
-        theModel.addAttribute("webUser",existingWebUser);
+        theModel.addAttribute("webUser", existingWebUser);
 
         return "user/add-or-update-employee-page";
     }
 
     @PostMapping("/update")
-    public String updateEmployeeAndUser(@Validated(OnUpdate.class) @ModelAttribute("webUser") WebUser theWebUser, BindingResult theBindingResult){
+    public String updateEmployeeAndUser(@Validated(OnUpdate.class) @ModelAttribute("webUser") WebUser theWebUser, BindingResult theBindingResult) {
 
         // form Validation
-        if (theBindingResult.hasErrors()){
+        if (theBindingResult.hasErrors()) {
             return "user/add-or-update-employee-page";
         }
 
@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String deleteEmployeeAndUser(@RequestParam("employeeId") int employeeId, Model theModel){
+    public String deleteEmployeeAndUser(@RequestParam("employeeId") int employeeId, Model theModel) {
 
         userService.delete(employeeId);
 

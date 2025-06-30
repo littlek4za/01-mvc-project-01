@@ -14,7 +14,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     private EntityManager entityManager;
 
-    public EmployeeDAOImpl (EntityManager theEntityManager){
+    public EmployeeDAOImpl(EntityManager theEntityManager) {
         entityManager = theEntityManager;
     }
 
@@ -31,7 +31,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void deleteById(int employeeId) {
         Employee employee = entityManager.find(Employee.class, employeeId);
-        if (employee != null){
+        if (employee != null) {
             entityManager.remove(employee);
         }
     }
@@ -45,7 +45,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return employees;
     }
 
-    public Employee findByIdWithUser(int theId){
+    public Employee findByIdWithUser(int theId) {
 
         TypedQuery<Employee> query = entityManager.createQuery(
                 "SELECT e FROM Employee e JOIN FETCH e.user WHERE e.id = :id", Employee.class

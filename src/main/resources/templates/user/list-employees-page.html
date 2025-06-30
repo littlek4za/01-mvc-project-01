@@ -21,7 +21,9 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>User ID</th>
-            <th>Action</th>
+            <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <th>Action</th>
+            </th:block>
         </tr>
         </thead>
 
@@ -36,21 +38,22 @@
             </td>
             <td th:text="${tempEmployee.user != null ? tempEmployee.user.id : 'No User Id'}"></td>
             <!-- Add update and delete button Link -->
-            <td>
-                <a th:href="@{/employee/showFormForUpdate(employeeId=${tempEmployee.id})}"
-                   class="btn btn-info btn-sm">
-                    Update
-                </a>
+            <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <td>
+                    <a th:href="@{/employee/showFormForUpdate(employeeId=${tempEmployee.id})}"
+                       class="btn btn-info btn-sm">Update
+                    </a>
 
-                <a>
-                    <form th:action="@{/employee/delete}" method="post" style="display:inline;"
-                          onsubmit="return confirm('Are you sure you want to delete this employee?')">
-                        <input type="hidden" name="employeeId" th:value="${tempEmployee.id}" />
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
-                </a>
+                    <a>
+                        <form th:action="@{/employee/delete}" method="post" style="display:inline;"
+                              onsubmit="return confirm('Are you sure you want to delete this employee?')">
+                            <input type="hidden" name="employeeId" th:value="${tempEmployee.id}"/>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </a>
+                </td>
+            </th:block>
 
-            </td>
         </tr>
         </tbody>
 

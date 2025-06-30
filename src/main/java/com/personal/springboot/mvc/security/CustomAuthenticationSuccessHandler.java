@@ -19,7 +19,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     // inject to use to look for user info from database after log in
     private UserService userService;
 
-    public CustomAuthenticationSuccessHandler (UserService theUserService) {
+    public CustomAuthenticationSuccessHandler(UserService theUserService) {
         userService = theUserService;
     }
 

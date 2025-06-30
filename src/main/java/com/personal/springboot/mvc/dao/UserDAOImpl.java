@@ -48,14 +48,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteById(long userId){
+    public void deleteById(long userId) {
         User user = entityManager.find(User.class, userId);
-        if (user != null){
+        if (user != null) {
             entityManager.remove(user);
         }
     }
 
-    public List<User> findAllUser(){
+    public List<User> findAllUser() {
 
         TypedQuery<User> query = entityManager.createQuery(
                 "FROM User u", User.class);

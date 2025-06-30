@@ -13,39 +13,39 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class MVCApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MVCApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MVCApplication.class, args);
+    }
 
-	@Bean
-	public CommandLineRunner commandLineRunner(RoleDAO roleDAO, UserDAO userDAO, UserService userService){
-		return runner ->{
-			//findRoleByUserName(roleDAO);
-			//findUserByUserName(userDAO);
-			findWebUserAndUpdate(userService,roleDAO,userDAO);
-		};
-	}
+    @Bean
+    public CommandLineRunner commandLineRunner(RoleDAO roleDAO, UserDAO userDAO, UserService userService) {
+        return runner -> {
+            //findRoleByUserName(roleDAO);
+            //findUserByUserName(userDAO);
+            //findWebUserAndUpdate(userService,roleDAO,userDAO);
+        };
+    }
 
-	private void findWebUserAndUpdate(UserService userService, RoleDAO roleDAO, UserDAO userDAO) {
-		Employee employee = userService.findEmployeeByIdWithUserInfo(3);
+    private void findWebUserAndUpdate(UserService userService, RoleDAO roleDAO, UserDAO userDAO) {
+        Employee employee = userService.findEmployeeByIdWithUserInfo(3);
 
-		WebUser webUser = userService.toWebUser(employee);
-		System.out.println(webUser);
+        WebUser webUser = userService.toWebUser(employee);
+        System.out.println(webUser);
 
-		webUser.setLastName("Ken");
-		System.out.println(webUser);
-		userService.update(webUser);
-	}
+        webUser.setLastName("Ken");
+        System.out.println(webUser);
+        userService.update(webUser);
+    }
 
 
-	private void findUserByUserName(UserDAO userDAO) {
+    private void findUserByUserName(UserDAO userDAO) {
 
-		System.out.println(userDAO.findByUserName("Ian"));
+        System.out.println(userDAO.findByUserName("Ian"));
 
-	}
+    }
 
-	private void findRoleByUserName(RoleDAO roleDAO) {
+    private void findRoleByUserName(RoleDAO roleDAO) {
 
-		System.out.println(roleDAO.findRoleByUserName("Ian"));
-	}
+        System.out.println(roleDAO.findRoleByUserName("Ian"));
+    }
 }

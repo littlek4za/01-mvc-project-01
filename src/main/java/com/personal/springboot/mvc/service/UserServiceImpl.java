@@ -8,6 +8,7 @@ import com.personal.springboot.mvc.entity.User;
 import com.personal.springboot.mvc.entity.Role;
 import com.personal.springboot.mvc.user.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO, EmployeeDAO employeeDAO, BCryptPasswordEncoder passwordEncoder){
+    public UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO, EmployeeDAO employeeDAO, BCryptPasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.roleDAO = roleDAO;
         this.employeeDAO = employeeDAO;
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(WebUser webUser) {
         Employee existingEmployee = employeeDAO.findByIdWithUser(webUser.getEmployeeId());
-        User existingUser =  existingEmployee.getUser();
+        User existingUser = existingEmployee.getUser();
         System.out.println(existingUser);
         System.out.println(existingEmployee);
 
@@ -93,7 +94,7 @@ public class UserServiceImpl implements UserService {
         return userDAO.findAllUser();
     }
 
-    public List<Employee> findAllEmployee(){
+    public List<Employee> findAllEmployee() {
         return employeeDAO.findAllEmployee();
     }
 
@@ -110,7 +111,7 @@ public class UserServiceImpl implements UserService {
         return webUser;
     }
 
-    public Employee findEmployeeByIdWithUserInfo(int theId){
+    public Employee findEmployeeByIdWithUserInfo(int theId) {
         return employeeDAO.findByIdWithUser(theId);
     }
 
@@ -119,10 +120,16 @@ public class UserServiceImpl implements UserService {
     public void delete(int employeeId) {
         Employee employee = employeeDAO.findByIdWithUser(employeeId);
         User user = employee.getUser();
+        Collection<Role> roles = user.getRoles();
+        for (Role role : roles) {
+            if ("ROLE_ADMIN".equals(role.getName())) {
+                throw new AccessDeniedException("Cannot delete an Admin user.");
+            }
+        }
+
         Long userId = employee.getUser().getId();
         employeeDAO.deleteById(employeeId);
         userDAO.deleteById(userId);
-
     }
 
     @Override
@@ -131,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
         User user = userDAO.findByUserName(username);
 
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         //tell spring the user details, need username, password and roles/authorities

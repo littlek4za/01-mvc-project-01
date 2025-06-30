@@ -27,7 +27,7 @@ public class RegistrationController {
     private UserService userService;
 
     @Autowired
-    public RegistrationController(UserService userService){
+    public RegistrationController(UserService userService) {
         this.userService = userService;
     }
 
@@ -41,7 +41,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/showRegistrationForm")
-    public String showRegistrationPage(Model theModel){
+    public String showRegistrationPage(Model theModel) {
 
         theModel.addAttribute("webUser", new WebUser());
 
@@ -52,20 +52,20 @@ public class RegistrationController {
     public String processRegistrationForm(
             @Validated(OnCreate.class) @ModelAttribute("webUser") WebUser theWebUser,
             BindingResult theBindingResult,
-            HttpSession session, Model theModel){
+            HttpSession session, Model theModel) {
 
         String userName = theWebUser.getUserName();
         logger.info("Processing registration form for: " + userName);
 
         // form Validation
-        if (theBindingResult.hasErrors()){
+        if (theBindingResult.hasErrors()) {
             return "register/registration-form-page";
         }
 
         // check for database if user already exists
         User existingUser = userService.findByUserName(userName);
 
-        if (existingUser != null){
+        if (existingUser != null) {
             theModel.addAttribute("webUser", new WebUser());
             theModel.addAttribute("registrationError", "Message: User name already exists.");
 

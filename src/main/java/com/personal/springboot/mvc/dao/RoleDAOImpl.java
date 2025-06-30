@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class RoleDAOImpl implements RoleDAO{
+public class RoleDAOImpl implements RoleDAO {
 
     private EntityManager entityManager;
 
-    public RoleDAOImpl (EntityManager theEntityManager){
+    public RoleDAOImpl(EntityManager theEntityManager) {
         entityManager = theEntityManager;
     }
 

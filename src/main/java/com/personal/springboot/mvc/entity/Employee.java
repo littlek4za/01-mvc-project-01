@@ -3,12 +3,12 @@ package com.personal.springboot.mvc.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name ="employee")
+@Table(name = "employee")
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="id")
+    @Column(name = "id")
     private int id;
 
     @Column(name = "first_name")
@@ -24,7 +24,7 @@ public class Employee {
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
-    public Employee(){
+    public Employee() {
     }
 
     public Employee(String firstName, String lastName, String email, User user) {

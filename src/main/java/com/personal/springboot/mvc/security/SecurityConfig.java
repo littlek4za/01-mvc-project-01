@@ -20,7 +20,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserService userService){
+    public DaoAuthenticationProvider authenticationProvider(UserService userService) {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
         auth.setPasswordEncoder(passwordEncoder());
@@ -52,22 +52,26 @@ public class SecurityConfig {
     ) throws Exception {
         http.authenticationProvider(authenticationProvider(userService)) //need to plug in the authenticationProvider to spring security manually if not spring might not know to use it
                 .authorizeHttpRequests(configurer ->
-                configurer
-                        .requestMatchers("/").hasRole("EMPLOYEE")
-                        .requestMatchers("/register/**").permitAll()
-                        .anyRequest().authenticated()
-                ).formLogin(form->
-                form
-                        .loginPage("/showLoginPage")
-                        .loginProcessingUrl("/authenticateTheUser")
-                        .successHandler(customAuthenticationSuccessHandler)
-                        .permitAll()
+                        configurer
+                                .requestMatchers("/").hasRole("EMPLOYEE")
+                                .requestMatchers("/register/**").permitAll()
+                                .anyRequest().authenticated()
+                ).formLogin(form ->
+                        form
+                                .loginPage("/showLoginPage")
+                                .loginProcessingUrl("/authenticateTheUser")
+                                .successHandler(customAuthenticationSuccessHandler)
+                                .permitAll()
                 ).logout(logout -> logout
                         .logoutUrl("/logout")
                         .permitAll()
-                ).exceptionHandling(configurer ->
-                        configurer.accessDeniedPage("/access-denied")
-        );
+                ).exceptionHandling(exception -> exception
+                        .accessDeniedHandler((request, response, accessDeniedException) ->
+                                response.sendRedirect("/access-denied")
+                        )
+                );
+
+
         return http.build();
     }
 }
