@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add/Update Employee Page</title>
+</head>
+<body>
+<h1>Save Employee</h1>
+
+<!--Save Form-->
+<form action="#" th:action="@{/employee/update}"
+      th:object="${webUser}"
+      method="POST">
+
+    <input type="hidden" th:field="*{employeeId}"/>
+    <input type="hidden" th:field="*{enabled}" />
+    <!--UserName input-->
+    <p>
+        UserName <input type="text" th:field="*{userName}">
+    </p>
+    <div th:if="${#fields.hasErrors('userName')}">
+        <ul>
+            <li th:each="err : ${#fields.errors('userName')}" th:text="'Error: ' + ${err}"/>
+        </ul>
+    </div>
+
+    <!--Password input-->
+    <!--
+    <p>
+        Password <input type="text" th:field="*{password}"/>
+    </p>
+    <div th:if="${#fields.hasErrors('password')}">
+        <ul>
+            <li th:each="err : ${#fields.errors('password')}" th:text="'Error: ' + ${err}" />
+        </ul>
+    </div>
+    -->
+
+    <!--First Name Input-->
+    <p>
+        First Name <input type="text" th:field="*{firstName}"/>
+    </p>
+    <div th:if="${#fields.hasErrors('firstName')}">
+        <ul>
+            <li th:each="err : ${#fields.errors('firstName')}" th:text="'Error: ' + ${err}" />
+        </ul>
+    </div>
+
+    <!--Last Name Input-->
+    <p>
+        Last Name <input type="text" th:field="*{lastName}"/>
+    </p>
+    <div th:if="${#fields.hasErrors('lastName')}">
+        <ul>
+            <li th:each="err : ${#fields.errors('lastName')}" th:text="'Error: ' + ${err}" />
+        </ul>
+    </div>
+
+    <!--Email Input-->
+    <p>
+        Email <input type="text" th:field="*{email}"/>
+    </p>
+    <div th:if="${#fields.hasErrors('email')}">
+        <ul>
+            <li th:each="err : ${#fields.errors('email')}" th:text="'Error: ' + ${err}" />
+        </ul>
+    </div>
+
+    <!--Update/Save Button-->
+    <div>
+        <input type="submit" value="Save"/>
+    </div>
+</form>
+<hr>
+<a th:href="@{/employee/list}">Back to Employees List</a>
+</body>
+</html>

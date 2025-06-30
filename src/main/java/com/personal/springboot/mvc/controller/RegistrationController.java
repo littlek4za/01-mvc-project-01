@@ -2,11 +2,13 @@ package com.personal.springboot.mvc.controller;
 
 import com.personal.springboot.mvc.entity.User;
 import com.personal.springboot.mvc.service.UserService;
+import com.personal.springboot.mvc.user.OnCreate;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -48,7 +50,7 @@ public class RegistrationController {
 
     @PostMapping("/processRegistrationForm")
     public String processRegistrationForm(
-            @Valid @ModelAttribute("webUser") WebUser theWebUser,
+            @Validated(OnCreate.class) @ModelAttribute("webUser") WebUser theWebUser,
             BindingResult theBindingResult,
             HttpSession session, Model theModel){
 

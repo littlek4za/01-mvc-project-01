@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,6 +68,60 @@ public class UserServiceImpl implements UserService {
 
         //save employee
         employeeDAO.save(employee);
+    }
+
+    @Transactional
+    @Override
+    public void update(WebUser webUser) {
+        Employee existingEmployee = employeeDAO.findByIdWithUser(webUser.getEmployeeId());
+        User existingUser =  existingEmployee.getUser();
+        System.out.println(existingUser);
+        System.out.println(existingEmployee);
+
+        existingUser.setUserName(webUser.getUserName());
+        existingUser.setEnable(webUser.getEnabled());
+
+        existingEmployee.setFirstName(webUser.getFirstName());
+        existingEmployee.setLastName(webUser.getLastName());
+        existingEmployee.setEmail(webUser.getEmail());
+        userDAO.update(existingUser);
+        employeeDAO.update(existingEmployee);
+    }
+
+    @Override
+    public List<User> findAllUser() {
+        return userDAO.findAllUser();
+    }
+
+    public List<Employee> findAllEmployee(){
+        return employeeDAO.findAllEmployee();
+    }
+
+    @Override
+    public WebUser toWebUser(Employee employee) {
+        WebUser webUser = new WebUser();
+        webUser.setUserName(employee.getUser().getUserName());
+        webUser.setFirstName(employee.getFirstName());
+        webUser.setLastName(employee.getLastName());
+        webUser.setEmail(employee.getEmail());
+        webUser.setEnabled(employee.getUser().getEnable());
+        webUser.setEmployeeId(employee.getId());
+
+        return webUser;
+    }
+
+    public Employee findEmployeeByIdWithUserInfo(int theId){
+        return employeeDAO.findByIdWithUser(theId);
+    }
+
+    @Transactional
+    @Override
+    public void delete(int employeeId) {
+        Employee employee = employeeDAO.findByIdWithUser(employeeId);
+        User user = employee.getUser();
+        Long userId = employee.getUser().getId();
+        employeeDAO.deleteById(employeeId);
+        userDAO.deleteById(userId);
 
     }
 

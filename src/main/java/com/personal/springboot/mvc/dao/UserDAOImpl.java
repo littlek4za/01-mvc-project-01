@@ -1,10 +1,13 @@
 package com.personal.springboot.mvc.dao;
 
+import com.personal.springboot.mvc.entity.Employee;
 import com.personal.springboot.mvc.entity.Role;
 import com.personal.springboot.mvc.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -37,5 +40,27 @@ public class UserDAOImpl implements UserDAO {
     public void save(User theUser) {
 
         entityManager.persist(theUser);
+    }
+
+    public void update(User theUser) {
+
+        entityManager.merge(theUser);
+    }
+
+    @Override
+    public void deleteById(long userId){
+        User user = entityManager.find(User.class, userId);
+        if (user != null){
+            entityManager.remove(user);
+        }
+    }
+
+    public List<User> findAllUser(){
+
+        TypedQuery<User> query = entityManager.createQuery(
+                "FROM User u", User.class);
+        List<User> users = query.getResultList();
+
+        return users;
     }
 }

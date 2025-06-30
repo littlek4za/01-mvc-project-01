@@ -7,37 +7,44 @@ import jakarta.validation.constraints.Pattern;
 public class WebUser {
 
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @NotNull(message = "is required", groups = {OnCreate.class, OnUpdate.class})
+    @Size(min = 1, message = "is required", groups = {OnCreate.class, OnUpdate.class})
     @Pattern(
             regexp = "^[a-zA-Z0-9][a-zA-Z0-9!@#$%^&*]{0,28}[a-zA-Z0-9]$",
-            message = "Username must be 1-30 characters, only letters, digits, and !@#$%^&*, and cannot start or end with a symbol"
+            message = "Username must be 1-30 characters, only letters, digits, and !@#$%^&*, and cannot start or end with a symbol",
+            groups = {OnCreate.class, OnUpdate.class}
     )
     private String userName;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, message = "is required")
+    @NotNull(message = "is required", groups = {OnCreate.class})
+    @Size(min = 1, message = "is required", groups = {OnCreate.class})
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$",
-            message = "Password must be at least 8 characters, include uppercase, lowercase, digit, and special character (!@#$%^&*)"
+            message = "Password must be at least 8 characters, include uppercase, lowercase, digit, and special character (!@#$%^&*)",
+            groups = {OnCreate.class}
     )
     private String password;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, max = 30, message = "First Name must be between 1 and 30 characters")
+    @NotNull(message = "is required", groups = {OnCreate.class, OnUpdate.class})
+    @Size(min = 1, max = 30, message = "First Name must be between 1 and 30 characters", groups = {OnCreate.class, OnUpdate.class})
     private String firstName;
 
-    @NotNull(message = "is required")
-    @Size(min = 1, max = 30, message = "Last Name must be between 1 and 30 characters")
+    @NotNull(message = "is required", groups = {OnCreate.class, OnUpdate.class})
+    @Size(min = 1, max = 30, message = "Last Name must be between 1 and 30 characters", groups = {OnCreate.class, OnUpdate.class})
     private String lastName;
 
     @Pattern(
             regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",
-            message = "Invalid email address"
+            message = "Invalid email address",
+            groups = {OnCreate.class, OnUpdate.class}
     )
     private String email;
 
-    public WebUser(){
+    private Boolean enabled;
+
+    private int employeeId;
+
+    public WebUser() {
 
     }
 
@@ -79,5 +86,33 @@ public class WebUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public int getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    @Override
+    public String toString() {
+        return "WebUser{" +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", enabled=" + enabled +
+                '}';
     }
 }

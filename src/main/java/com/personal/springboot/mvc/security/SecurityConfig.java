@@ -62,7 +62,9 @@ public class SecurityConfig {
                         .loginProcessingUrl("/authenticateTheUser")
                         .successHandler(customAuthenticationSuccessHandler)
                         .permitAll()
-                ).logout(logout -> logout.permitAll()
+                ).logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .permitAll()
                 ).exceptionHandling(configurer ->
                         configurer.accessDeniedPage("/access-denied")
         );
