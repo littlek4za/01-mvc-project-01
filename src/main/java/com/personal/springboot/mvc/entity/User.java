@@ -2,7 +2,7 @@ package com.personal.springboot.mvc.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -28,7 +28,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> roles;
+    private List<Role> roles;
 
     public User() {
 
@@ -40,7 +40,7 @@ public class User {
         this.enable = enable;
     }
 
-    public User(String userName, String password, Boolean enable, Collection<Role> roles) {
+    public User(String userName, String password, Boolean enable, List<Role> roles) {
         this.userName = userName;
         this.password = password;
         this.enable = enable;
@@ -79,11 +79,11 @@ public class User {
         this.enable = enable;
     }
 
-    public Collection<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

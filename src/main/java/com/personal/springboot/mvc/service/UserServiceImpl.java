@@ -82,6 +82,10 @@ public class UserServiceImpl implements UserService {
         existingUser.setUserName(webUser.getUserName());
         existingUser.setEnable(webUser.getEnabled());
 
+        List<Role> roles = webUser.getRoleIds().stream()
+                        .map(roleId -> roleDAO.findRoleById(roleId)).collect(Collectors.toList());
+        existingUser.setRoles(roles);
+
         existingEmployee.setFirstName(webUser.getFirstName());
         existingEmployee.setLastName(webUser.getLastName());
         existingEmployee.setEmail(webUser.getEmail());
@@ -107,6 +111,10 @@ public class UserServiceImpl implements UserService {
         webUser.setEmail(employee.getEmail());
         webUser.setEnabled(employee.getUser().getEnable());
         webUser.setEmployeeId(employee.getId());
+
+        List<Long> roleIds = employee.getUser().getRoles().stream()
+                .map(role -> role.getId()).collect(Collectors.toList());
+        webUser.setRoleIds(roleIds);
 
         return webUser;
     }

@@ -12,8 +12,10 @@
       th:object="${webUser}"
       method="POST">
 
+    <!-- Hidden Parameter to be passed -->
     <input type="hidden" th:field="*{employeeId}"/>
-    <input type="hidden" th:field="*{enabled}" />
+    <input type="hidden" th:field="*{enabled}"/>
+
     <!--UserName input-->
     <p>
         UserName <input type="text" th:field="*{userName}">
@@ -42,7 +44,7 @@
     </p>
     <div th:if="${#fields.hasErrors('firstName')}">
         <ul>
-            <li th:each="err : ${#fields.errors('firstName')}" th:text="'Error: ' + ${err}" />
+            <li th:each="err : ${#fields.errors('firstName')}" th:text="'Error: ' + ${err}"/>
         </ul>
     </div>
 
@@ -52,7 +54,7 @@
     </p>
     <div th:if="${#fields.hasErrors('lastName')}">
         <ul>
-            <li th:each="err : ${#fields.errors('lastName')}" th:text="'Error: ' + ${err}" />
+            <li th:each="err : ${#fields.errors('lastName')}" th:text="'Error: ' + ${err}"/>
         </ul>
     </div>
 
@@ -62,7 +64,26 @@
     </p>
     <div th:if="${#fields.hasErrors('email')}">
         <ul>
-            <li th:each="err : ${#fields.errors('email')}" th:text="'Error: ' + ${err}" />
+            <li th:each="err : ${#fields.errors('email')}" th:text="'Error: ' + ${err}"/>
+        </ul>
+    </div>
+
+
+    <!--Role Selection-->
+    <p>
+        Role<br>
+        <th:block th:each="role : ${roleList}">
+            <th:block th:if="${role.name != 'ROLE_EMPLOYEE'}">
+                <input type="checkbox"
+                       th:field="*{roleIds}"
+                       th:value="${role.id}"/>
+                <span th:text="${role.name}"></span><br>
+            </th:block>
+        </th:block>
+    </p>
+    <div th:if="${#fields.hasErrors('roleIds')}">
+        <ul>
+            <li th:each="err : ${#fields.errors('roleIds')}" th:text="'Error: ' + ${err}"/>
         </ul>
     </div>
 

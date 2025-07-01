@@ -8,5 +8,9 @@ public interface RoleDAO {
 
     List<Role> findRoleByUserName(String theUserName);
 
-    public Role findRoleByName(String theRoleName);
+    Role findRoleByName(String theRoleName);
+
+    List<Role> findAllRole();
+
+    Role findRoleById(Long theRoleId);
 }

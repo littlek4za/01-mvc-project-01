@@ -1,8 +1,12 @@
 package com.personal.springboot.mvc.user;
 
+import com.personal.springboot.mvc.entity.Role;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
+
+import java.util.Collection;
+import java.util.List;
 
 public class WebUser {
 
@@ -39,6 +43,9 @@ public class WebUser {
             groups = {OnCreate.class, OnUpdate.class}
     )
     private String email;
+
+    @NotNull(message = "is required", groups = {OnUpdate.class})
+    private List<Long> roleIds;
 
     private Boolean enabled;
 
@@ -104,6 +111,14 @@ public class WebUser {
         this.employeeId = employeeId;
     }
 
+    public List<Long> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
+    }
+
     @Override
     public String toString() {
         return "WebUser{" +
@@ -112,7 +127,9 @@ public class WebUser {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", roleIds=" + roleIds +
                 ", enabled=" + enabled +
+                ", employeeId=" + employeeId +
                 '}';
     }
 }

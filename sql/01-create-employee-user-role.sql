@@ -1,3 +1,4 @@
+CREATE DATABASE  IF NOT EXISTS `employee_directory`;
 USE `employee_directory`;
 
 SET foreign_key_checks = 0;

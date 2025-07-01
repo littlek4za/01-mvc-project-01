@@ -5,13 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-  Welcome to the home page!
-  <br><br>
-  <hr>
-  <a th:href="@{/employee/list}">Employee List</a>
-
-  <form th:action="@{/logout}" method="post">
-      <input type="submit" value="Logout"/>
-  </form>
+Welcome to the home page!
+<br><br>
+<hr>
+<br>
+<a th:href="@{/employee/list}">Employee List</a>
+<br><br>
+<hr>
+<p>
+    Logged in as: <span th:text="${userName}"></span>
+</p>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout"/>
+</form>
 </body>
 </html>

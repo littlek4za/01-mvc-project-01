@@ -1,5 +1,6 @@
 package com.personal.springboot.mvc.controller;
 
+import com.personal.springboot.mvc.dao.RoleDAO;
 import com.personal.springboot.mvc.entity.Employee;
 import com.personal.springboot.mvc.entity.User;
 import com.personal.springboot.mvc.service.UserService;
@@ -7,6 +8,7 @@ import com.personal.springboot.mvc.user.OnCreate;
 import com.personal.springboot.mvc.user.OnUpdate;
 import com.personal.springboot.mvc.user.WebUser;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,9 +22,12 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private RoleDAO roleDAO;
 
-    public UserController(UserService userService) {
+    @Autowired
+    public UserController(UserService userService, RoleDAO roleDAO) {
         this.userService = userService;
+        this.roleDAO = roleDAO;
     }
 
     @GetMapping("/list")
@@ -49,6 +54,7 @@ public class UserController {
         WebUser existingWebUser = userService.toWebUser(theEmployee);
 
         theModel.addAttribute("webUser", existingWebUser);
+        theModel.addAttribute("roleList", roleDAO.findAllRole());
 
         return "user/add-or-update-employee-page";
     }

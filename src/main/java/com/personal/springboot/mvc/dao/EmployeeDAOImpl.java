@@ -48,7 +48,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public Employee findByIdWithUser(int theId) {
 
         TypedQuery<Employee> query = entityManager.createQuery(
-                "SELECT e FROM Employee e JOIN FETCH e.user WHERE e.id = :id", Employee.class
+                "SELECT e FROM Employee e " +
+                        "JOIN FETCH e.user u " +
+                        "LEFT JOIN FETCH u.roles " +
+                        "WHERE e.id = :id", Employee.class
         );
         query.setParameter("id", theId);
         return query.getSingleResult();
