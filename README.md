@@ -7,7 +7,7 @@ This system does the following:
 * A table to show current employee list
 * Support Employee Registration
 * Support Employee info Update and Delete (only by Admin)
-* This is ust a starter code and has abiliy to expand the functionality as a employee portal for future usage.
+* This is just a starter code and has abiliy to expand the functionality as a employee portal for future usage.
 
 ## 
 * **Backend:** Java (Spring Boot)
