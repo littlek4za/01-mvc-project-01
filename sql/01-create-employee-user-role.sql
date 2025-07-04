@@ -53,28 +53,28 @@ ON UPDATE NO ACTION ON DELETE NO ACTION
 
 -- create user and insert the created id into employee table while creating employee
 INSERT INTO `user` (`username`,`password`,`enable`) VALUES
-('Amy','$2a$10$h6qAkXp7E2CLS9GieJBw2Oasqyoc3hGScY3bNA3KN/rGJzkLHLPKu',1);
+('admin','$2a$10$rfOzyTNYbIZVhGMNM0K/e.zs3BMadrJTCP8seL9Lh25aywB0zRow.',1);
 SET @user_id = LAST_INSERT_ID();
 INSERT INTO `employee` (`first_name`, `last_name`, `email`, `user_id`) VALUES
-('Chan', 'Amy', 'amyc@testmail.com',@user_id);
+('Admin', 'Company', 'admin@testmail.com',@user_id);
 
 INSERT INTO `user` (`username`,`password`,`enable`) VALUES
-('Zoe','$2a$10$h6qAkXp7E2CLS9GieJBw2Oasqyoc3hGScY3bNA3KN/rGJzkLHLPKu',1);
+('user1','$2a$10$NyVxyjLp0EcgG6dcSWRSCes49oSX3u10qA2ZLaz/LSk6sqzBvcqb6',1);
 SET @user_id = LAST_INSERT_ID();
 INSERT INTO `employee` (`first_name`, `last_name`, `email`, `user_id`) VALUES
-('Man','Zoe','zoem@testmail.com', @user_id);
+('User1','Company','user1@testmail.com', @user_id);
 
 INSERT INTO `user` (`username`,`password`,`enable`) VALUES
-('Ian','$2a$10$h6qAkXp7E2CLS9GieJBw2Oasqyoc3hGScY3bNA3KN/rGJzkLHLPKu',1);
+('user2','$2a$10$qE2HDl0ilqugp9haU1lxceAXHl7oqFiB.DwPLS087X./N8OxLuB7m',1);
 SET @user_id = LAST_INSERT_ID();
 INSERT INTO `employee` (`first_name`, `last_name`, `email`, `user_id`) VALUES
-('Yit','Ian','iany@testmail.com', @user_id);
+('User2','Company','user2@testmail.com', @user_id);
 
 INSERT INTO `user` (`username`,`password`,`enable`) VALUES
-('Ken','$2a$10$h6qAkXp7E2CLS9GieJBw2Oasqyoc3hGScY3bNA3KN/rGJzkLHLPKu',1);
+('user3','$2a$10$a6Z18FPY.WwzBNm28eExs.60e7Gsv7s1erzjP13mfuc0gBoKFDY6m',1);
 SET @user_id = LAST_INSERT_ID();
 INSERT INTO `employee` (`first_name`, `last_name`, `email`, `user_id`) VALUES
-('Wong','Ken','kenw@testmail.com', @user_id);
+('User3','Company','user3@testmail.com', @user_id);
 
 -- create role
 INSERT INTO `role` (`name`) VALUES
@@ -84,9 +84,9 @@ INSERT INTO `role` (`name`) VALUES
 
 INSERT INTO `users_roles` (`user_id`,`role_id`) VALUES
 (1, 1),
+(1, 2),
+(1, 3),
 (2, 1),
 (2, 2),
 (3, 1),
-(3, 2),
-(3, 3),
 (4, 1);

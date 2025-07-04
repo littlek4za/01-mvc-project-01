@@ -60,4 +60,21 @@ mvn spring-boot:run
 Once the app is running, open your browser and visit:
 http://localhost:8080
 
+### Log in Info
+Default log in info:
+1. Admin (ROLE = Admin, Manager, Employee)
+* username=admin
+* password=admin
+
+2. User1 (ROLE = Manager, Employee)
+* username=user1
+* password=user1
+
+3. User2 (ROLE = Employee)
+* username=user2
+* password=user2
+
+4. User3 (ROLE = Employee)
+* username=user3
+* password=user3
 

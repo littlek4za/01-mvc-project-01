@@ -65,4 +65,13 @@ public class RoleDAOImpl implements RoleDAO {
 
         return theQuery.getSingleResult();
     }
+
+    @Override
+    public Long findIdByName(String roleName) {
+        TypedQuery<Long> theQuery = entityManager.createQuery(
+                "SELECT r.id FROM Role r WHERE r.name=:roleName", Long.class);
+        theQuery.setParameter("roleName", roleName);
+
+        return theQuery.getSingleResult();
+    }
 }

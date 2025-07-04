@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,22 +72,27 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void update(WebUser webUser) {
+        System.out.println("WebUser Info: " + webUser);
         Employee existingEmployee = employeeDAO.findByIdWithUser(webUser.getEmployeeId());
         User existingUser = existingEmployee.getUser();
-        System.out.println(existingUser);
-        System.out.println(existingEmployee);
-
         existingUser.setUserName(webUser.getUserName());
         existingUser.setEnable(webUser.getEnabled());
 
-        List<Role> roles = webUser.getRoleIds().stream()
-                        .map(roleId -> roleDAO.findRoleById(roleId)).collect(Collectors.toList());
+        //Ensure ROLE_EMPLOYEE always applied during update, basic role that cannot be removed
+        List<Long> roleIds = Optional.ofNullable(webUser.getRoleIds()).orElseGet(ArrayList::new);
+        Long employeeRoleId = roleDAO.findRoleByName("ROLE_EMPLOYEE").getId();
+        if(!roleIds.contains(employeeRoleId)){
+            roleIds.add(employeeRoleId);
+        }
+        List<Role> roles = roleIds.stream().map(roleId -> roleDAO.findRoleById(roleId)).collect(Collectors.toList());
         existingUser.setRoles(roles);
 
         existingEmployee.setFirstName(webUser.getFirstName());
         existingEmployee.setLastName(webUser.getLastName());
         existingEmployee.setEmail(webUser.getEmail());
+        System.out.println("Updating User Info: " + existingUser);
         userDAO.update(existingUser);
+        System.out.println("Updating Employee Info: " + existingEmployee);
         employeeDAO.update(existingEmployee);
     }
 
@@ -115,7 +118,7 @@ public class UserServiceImpl implements UserService {
         List<Long> roleIds = employee.getUser().getRoles().stream()
                 .map(role -> role.getId()).collect(Collectors.toList());
         webUser.setRoleIds(roleIds);
-
+        System.out.println("Check role gather from form: " + roleIds);
         return webUser;
     }
 

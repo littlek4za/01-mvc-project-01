@@ -72,6 +72,14 @@
     <!--Role Selection-->
     <p>
         Role<br>
+
+        <!--Always send in ROLE_EMPLOYEE in hidden to pass validation-->
+        <input type="checkbox"
+               th:field="*{roleIds}"
+               th:value="${employeeRoleId}"
+               checked
+               style="display:none;"/>
+
         <th:block th:each="role : ${roleList}">
             <th:block th:if="${role.name != 'ROLE_EMPLOYEE'}">
                 <input type="checkbox"

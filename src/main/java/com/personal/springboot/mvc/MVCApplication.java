@@ -21,11 +21,17 @@ public class MVCApplication {
     @Bean
     public CommandLineRunner commandLineRunner(RoleDAO roleDAO, UserDAO userDAO, UserService userService, EmployeeDAO employeeDAO) {
         return runner -> {
-            //findRoleByUserName(roleDAO);
+            findRoleByUserName(roleDAO);
             //findUserByUserName(userDAO);
             //findWebUserAndUpdate(userService,roleDAO,userDAO);
-            findEmployeeAllInfo(employeeDAO, userService);
+            //findEmployeeAllInfo(employeeDAO, userService);
+            //findRoleIdByRoleName(roleDAO);
         };
+    }
+
+    private void findRoleIdByRoleName(RoleDAO roleDAO) {
+        Long id = roleDAO.findIdByName("ROLE_EMPLOYEE");
+        System.out.println("Id for role employee = " + id);
     }
 
     private void findEmployeeAllInfo(EmployeeDAO employeeDAO, UserService userService) {
@@ -67,6 +73,6 @@ public class MVCApplication {
 
     private void findRoleByUserName(RoleDAO roleDAO) {
 
-        System.out.println(roleDAO.findRoleByUserName("Ian"));
+        System.out.println(roleDAO.findRoleByUserName("mjcheh"));
     }
 }

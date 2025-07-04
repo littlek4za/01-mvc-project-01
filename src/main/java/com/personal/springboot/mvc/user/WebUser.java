@@ -1,6 +1,7 @@
 package com.personal.springboot.mvc.user;
 
 import com.personal.springboot.mvc.entity.Role;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
@@ -44,7 +45,7 @@ public class WebUser {
     )
     private String email;
 
-    @NotNull(message = "is required", groups = {OnUpdate.class})
+    @NotEmpty(message = "at least one role is required", groups = {OnUpdate.class})
     private List<Long> roleIds;
 
     private Boolean enabled;

@@ -56,6 +56,10 @@ public class UserController {
         theModel.addAttribute("webUser", existingWebUser);
         theModel.addAttribute("roleList", roleDAO.findAllRole());
 
+        Long employeeRoleId = roleDAO.findIdByName("ROLE_EMPLOYEE");
+
+        theModel.addAttribute("employeeRoleId", employeeRoleId);
+
         return "user/add-or-update-employee-page";
     }
 
