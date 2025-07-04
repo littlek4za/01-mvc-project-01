@@ -21,7 +21,7 @@ Make sure the following are installed on your system:
 * **Maven 3.6+**
 * **MySQL Server and Workbench**
 
-
+---
 ### Database Setup
 1. Start MySQL Workbench and create a connection to your local MySQL server.
 2. Open the provided SQL script, included in `sql/`
@@ -40,7 +40,8 @@ spring.datasource.password=your_db_password
 * `<your_host>` with your MySQL host (e.g., localhost)
 * `<your_port>` with your MySQL port (default is 3306)
 * `your_db_username` and `your_db_password` with your actual MySQL credentials
-
+  
+---
 ### Running the application
 1. Clone the Repository
 ```bash
@@ -56,6 +57,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
+---
 ### Accessing the Application
 Once the app is running, open your browser and visit:
 http://localhost:8080
