@@ -30,13 +30,49 @@
 
     <!--Password input-->
     <p>
-        Password <input type="text" th:field="*{password}"/>
+        Password <input type="password" id="password" th:field="*{password}"/>
     </p>
     <div th:if="${#fields.hasErrors('password')}">
         <ul>
-            <li th:each="err : ${#fields.errors('password')}" th:text="'Error: ' + ${err}" />
+            <li th:each="err : ${#fields.errors('password')}" th:text="'Error: ' + ${err}"/>
         </ul>
     </div>
+
+    <!--Comfirm Password Input-->
+    <p>
+        Confirm Password <input type="password" id="confirm_password" th:field="*{confirmPassword}" onkeyup="check();"/>
+        <span id="message"></span>
+    </p>
+    <div th:if="${#fields.hasErrors('confirmPassword')}">
+        <ul>
+            <li th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></li>
+        </ul>
+    </div>
+
+    <script>
+        var check = function() {
+            var password = document.getElementById('password').value;
+            var confirm_password = document.getElementById('confirm_password').value;
+            var message = document.getElementById('message');
+            var submitButton = document.querySelector('input[type="submit"]');
+
+        if (password === confirm_password) {
+            message.style.color = 'green';
+            message.innerHTML = 'Passwords match!';
+            submitButton.disabled = false;
+        } else {
+            message.style.color = 'red';
+            message.innerHTML = 'Passwords do not match!';
+            submitButton.disabled = true;
+        }
+
+        if (password === '' && confirm_password === '') {
+            message.innerHTML = '';
+            submitButton.disabled = false;
+        }
+        }
+    </script>
+
 
     <!--First Name Input-->
     <p>
@@ -44,7 +80,7 @@
     </p>
     <div th:if="${#fields.hasErrors('firstName')}">
         <ul>
-            <li th:each="err : ${#fields.errors('firstName')}" th:text="'Error: ' + ${err}" />
+            <li th:each="err : ${#fields.errors('firstName')}" th:text="'Error: ' + ${err}"/>
         </ul>
     </div>
 
@@ -54,7 +90,7 @@
     </p>
     <div th:if="${#fields.hasErrors('lastName')}">
         <ul>
-            <li th:each="err : ${#fields.errors('lastName')}" th:text="'Error: ' + ${err}" />
+            <li th:each="err : ${#fields.errors('lastName')}" th:text="'Error: ' + ${err}"/>
         </ul>
     </div>
 
@@ -64,7 +100,7 @@
     </p>
     <div th:if="${#fields.hasErrors('email')}">
         <ul>
-            <li th:each="err : ${#fields.errors('email')}" th:text="'Error: ' + ${err}" />
+            <li th:each="err : ${#fields.errors('email')}" th:text="'Error: ' + ${err}"/>
         </ul>
     </div>
 

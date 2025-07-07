@@ -1,6 +1,7 @@
 package com.personal.springboot.mvc.user;
 
 import com.personal.springboot.mvc.entity.Role;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -9,7 +10,14 @@ import jakarta.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.List;
 
-public class WebUser {
+
+@FieldMatch.List({
+        @FieldMatch(first = "password",
+                second = "confirmPassword",
+                message = "The password fields must match",
+                groups = {OnCreate.class})
+})
+public class WebUser{
 
 
     @NotNull(message = "is required", groups = {OnCreate.class, OnUpdate.class})
@@ -29,6 +37,11 @@ public class WebUser {
             groups = {OnCreate.class}
     )
     private String password;
+
+    @Transient //field will not be saved
+    @NotNull(message = "is required", groups = {OnCreate.class})
+    @Size(min = 1, message = "is required", groups = {OnCreate.class})
+    private String confirmPassword;
 
     @NotNull(message = "is required", groups = {OnCreate.class, OnUpdate.class})
     @Size(min = 1, max = 30, message = "First Name must be between 1 and 30 characters", groups = {OnCreate.class, OnUpdate.class})
@@ -120,6 +133,14 @@ public class WebUser {
         this.roleIds = roleIds;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     @Override
     public String toString() {
         return "WebUser{" +
@@ -133,4 +154,6 @@ public class WebUser {
                 ", employeeId=" + employeeId +
                 '}';
     }
+
+
 }
