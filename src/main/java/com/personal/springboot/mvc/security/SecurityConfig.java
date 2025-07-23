@@ -50,22 +50,29 @@ public class SecurityConfig {
             UserService userService,
             AuthenticationSuccessHandler customAuthenticationSuccessHandler
     ) throws Exception {
-        http.authenticationProvider(authenticationProvider(userService)) //need to plug in the authenticationProvider to spring security manually if not spring might not know to use it
-                .authorizeHttpRequests(configurer ->
-                        configurer
-                                .requestMatchers("/").hasRole("EMPLOYEE")
-                                .requestMatchers("/register/**").permitAll()
-                                .anyRequest().authenticated()
-                ).formLogin(form ->
-                        form
+        http
+                .authenticationProvider(authenticationProvider(userService)) //need to plug in the authenticationProvider to spring security manually if not spring might not know to use it
+                .authorizeHttpRequests(configurer -> configurer
+                        .requestMatchers("/register/**").permitAll() // Permit register pages publicly
+                        .requestMatchers("/api/**").authenticated() // API requires authentication
+                        .requestMatchers("/").hasRole("EMPLOYEE") // Web pages require EMPLOYEE role
+                        .anyRequest().authenticated() // All else needs login
+                )
+                .formLogin(form -> form // Form login (Web use)
                                 .loginPage("/showLoginPage")
                                 .loginProcessingUrl("/authenticateTheUser")
                                 .successHandler(customAuthenticationSuccessHandler)
                                 .permitAll()
-                ).logout(logout -> logout
+                )
+                .httpBasic(httpBasic->{}) // Basic Auth (Postman/API)
+                .csrf(csrf->csrf
+                        .ignoringRequestMatchers("/api/**") // Disable CSRF only for APIs
+                )
+                .logout(logout -> logout // Logout support
                         .logoutUrl("/logout")
                         .permitAll()
-                ).exceptionHandling(exception -> exception
+                )
+                .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) ->
                                 response.sendRedirect("/access-denied")
                         )
