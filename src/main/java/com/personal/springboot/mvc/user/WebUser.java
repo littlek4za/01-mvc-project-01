@@ -1,13 +1,11 @@
 package com.personal.springboot.mvc.user;
 
-import com.personal.springboot.mvc.entity.Role;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.Collection;
 import java.util.List;
 
 

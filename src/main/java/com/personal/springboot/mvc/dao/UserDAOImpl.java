@@ -1,7 +1,5 @@
 package com.personal.springboot.mvc.dao;
 
-import com.personal.springboot.mvc.entity.Employee;
-import com.personal.springboot.mvc.entity.Role;
 import com.personal.springboot.mvc.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;

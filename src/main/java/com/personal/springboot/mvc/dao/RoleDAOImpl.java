@@ -3,7 +3,6 @@ package com.personal.springboot.mvc.dao;
 import com.personal.springboot.mvc.entity.Role;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
