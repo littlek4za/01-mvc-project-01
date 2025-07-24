@@ -15,4 +15,6 @@ public interface EmployeeDAO {
     List<Employee> findAllEmployee();
 
     Employee findByIdWithUser(int theId);
+
+    List<String> findAllEmail();
 }

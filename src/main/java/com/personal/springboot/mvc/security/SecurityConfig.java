@@ -52,19 +52,19 @@ public class SecurityConfig {
     ) throws Exception {
         http
                 .authenticationProvider(authenticationProvider(userService)) //need to plug in the authenticationProvider to spring security manually if not spring might not know to use it
-                .authorizeHttpRequests(configurer -> configurer
+                .authorizeHttpRequests(configurer -> configurer //url authorized rules
                         .requestMatchers("/register/**").permitAll() // Permit register pages publicly
                         .requestMatchers("/api/**").authenticated() // API requires authentication
                         .requestMatchers("/").hasRole("EMPLOYEE") // Web pages require EMPLOYEE role
                         .anyRequest().authenticated() // All else needs login
                 )
-                .formLogin(form -> form // Form login (Web use)
-                                .loginPage("/showLoginPage")
-                                .loginProcessingUrl("/authenticateTheUser")
-                                .successHandler(customAuthenticationSuccessHandler)
+                .formLogin(form -> form // Form login (for browser user)
+                                .loginPage("/showLoginPage") // Custom Log in page
+                                .loginProcessingUrl("/authenticateTheUser") // Form action URL
+                                .successHandler(customAuthenticationSuccessHandler) // Redirect on login success
                                 .permitAll()
                 )
-                .httpBasic(httpBasic->{}) // Basic Auth (Postman/API)
+                .httpBasic(httpBasic->{}) // Basic Auth (for client that use Postman/API)
                 .csrf(csrf->csrf
                         .ignoringRequestMatchers("/api/**") // Disable CSRF only for APIs
                 )
@@ -74,7 +74,7 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) ->
-                                response.sendRedirect("/access-denied")
+                                response.sendRedirect("/access-denied") // redirect to here if they are not authorized
                         )
                 );
 

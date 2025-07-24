@@ -35,6 +35,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         User theUser = userService.findByUserName(userName);
 
         // add user object to the http session
+        // by default, not full info can be display, usually only username, encoded password and roles
+        // using custom can pull in full info(firstName, lastName etc) and use it when retrieve from session
         HttpSession session = request.getSession();
         session.setAttribute("user", theUser);
 

@@ -1,5 +1,6 @@
 package com.personal.springboot.mvc.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.personal.springboot.mvc.entity.Role;
 import jakarta.persistence.*;
 
@@ -11,6 +12,8 @@ public class UserDTO {
     private String userName;
     private Boolean enable;
     private List<String> roles;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
     public UserDTO(){
     }
@@ -20,6 +23,14 @@ public class UserDTO {
         this.userName = userName;
         this.enable = enable;
         this.roles = roles;
+    }
+
+    public UserDTO(Long id, String userName, Boolean enable, List<String> roles, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.enable = enable;
+        this.roles = roles;
+        this.password = password;
     }
 
     public Long getId() {
@@ -52,5 +63,13 @@ public class UserDTO {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

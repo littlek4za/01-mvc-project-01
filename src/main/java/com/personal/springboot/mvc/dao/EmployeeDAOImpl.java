@@ -54,4 +54,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         query.setParameter("id", theId);
         return query.getSingleResult();
     }
+
+    public List<String> findAllEmail(){
+        TypedQuery<String> query = entityManager.createQuery(
+                "SELECT e.email FROM Employee e", String.class);
+        return query.getResultList();
+    }
 }

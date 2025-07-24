@@ -11,8 +11,6 @@ public class EmployeeDTO {
     private String firstName;
     private String lastName;
     private String email;
-
-    @JsonProperty("user")
     private UserDTO userDTO;
 
     public EmployeeDTO(){
