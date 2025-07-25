@@ -2,12 +2,9 @@ package com.personal.springboot.mvc.controller;
 
 import com.personal.springboot.mvc.dao.RoleDAO;
 import com.personal.springboot.mvc.entity.Employee;
-import com.personal.springboot.mvc.entity.User;
-import com.personal.springboot.mvc.service.UserService;
-import com.personal.springboot.mvc.user.OnCreate;
+import com.personal.springboot.mvc.service.WebUserService;
 import com.personal.springboot.mvc.user.OnUpdate;
 import com.personal.springboot.mvc.user.WebUser;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +18,12 @@ import java.util.List;
 @RequestMapping("/employee")
 public class UserController {
 
-    private UserService userService;
+    private WebUserService webUserService;
     private RoleDAO roleDAO;
 
     @Autowired
-    public UserController(UserService userService, RoleDAO roleDAO) {
-        this.userService = userService;
+    public UserController(WebUserService webUserService, RoleDAO roleDAO) {
+        this.webUserService = webUserService;
         this.roleDAO = roleDAO;
     }
 
@@ -34,7 +31,7 @@ public class UserController {
     public String listUsers(Model theModel) {
 
         //get all the user + employee info from db
-        List<Employee> theEmployees = userService.findAllEmployee();
+        List<Employee> theEmployees = webUserService.findAllEmployee();
 
         theModel.addAttribute("employees", theEmployees);
 
@@ -45,18 +42,18 @@ public class UserController {
     public String showFormForUpdate(@RequestParam("employeeId") int theEmployeeId, Model theModel) {
 
         //create model attribute to bind form data
-        Employee theEmployee = userService.findEmployeeByIdWithUserInfo(theEmployeeId);
+        Employee theEmployee = webUserService.findEmployeeByIdWithUserInfo(theEmployeeId);
 
         if (theEmployee == null) {
             return "error";
         }
 
-        WebUser existingWebUser = userService.toWebUser(theEmployee);
+        WebUser existingWebUser = webUserService.toWebUser(theEmployee);
 
         theModel.addAttribute("webUser", existingWebUser);
-        theModel.addAttribute("roleList", roleDAO.findAllRole());
+        theModel.addAttribute("roleList", webUserService.findAllRoles());
 
-        Long employeeRoleId = roleDAO.findIdByName("ROLE_EMPLOYEE");
+        Long employeeRoleId = webUserService.findRoleIdByName("ROLE_EMPLOYEE");
 
         theModel.addAttribute("employeeRoleId", employeeRoleId);
 
@@ -71,7 +68,7 @@ public class UserController {
             return "user/add-or-update-employee-page";
         }
 
-        userService.update(theWebUser);
+        webUserService.update(theWebUser);
 
         return "redirect:/employee/list";
     }
@@ -79,7 +76,7 @@ public class UserController {
     @PostMapping("/delete")
     public String deleteEmployeeAndUser(@RequestParam("employeeId") int employeeId, Model theModel) {
 
-        userService.delete(employeeId);
+        webUserService.delete(employeeId);
 
         return "redirect:/employee/list";
     }

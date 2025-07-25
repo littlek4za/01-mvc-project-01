@@ -1,6 +1,6 @@
 package com.personal.springboot.mvc.security;
 
-import com.personal.springboot.mvc.service.UserService;
+import com.personal.springboot.mvc.service.WebUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
@@ -20,9 +18,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserService userService) {
+    public DaoAuthenticationProvider authenticationProvider(WebUserService webUserService) {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
+        auth.setUserDetailsService(webUserService);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
@@ -47,11 +45,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(
             HttpSecurity http,
-            UserService userService,
+            WebUserService webUserService,
             AuthenticationSuccessHandler customAuthenticationSuccessHandler
     ) throws Exception {
         http
-                .authenticationProvider(authenticationProvider(userService)) //need to plug in the authenticationProvider to spring security manually if not spring might not know to use it
+                .authenticationProvider(authenticationProvider(webUserService)) //need to plug in the authenticationProvider to spring security manually if not spring might not know to use it
                 .authorizeHttpRequests(configurer -> configurer //url authorized rules
                         .requestMatchers("/register/**").permitAll() // Permit register pages publicly
                         .requestMatchers("/api/**").authenticated() // API requires authentication

@@ -1,9 +1,8 @@
 package com.personal.springboot.mvc.controller;
 
 import com.personal.springboot.mvc.entity.User;
-import com.personal.springboot.mvc.service.UserService;
+import com.personal.springboot.mvc.service.WebUserService;
 import com.personal.springboot.mvc.user.OnCreate;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -23,12 +22,11 @@ public class RegistrationController {
 
     //log error in run log
     private Logger logger = Logger.getLogger(getClass().getName());
-
-    private UserService userService;
+    private WebUserService webUserService;
 
     @Autowired
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
+    public RegistrationController(WebUserService webUserService) {
+        this.webUserService = webUserService;
     }
 
     // trim whitespace or convert white space to null
@@ -63,7 +61,7 @@ public class RegistrationController {
         }
 
         // check for database if user already exists
-        User existingUser = userService.findByUserName(userName);
+        User existingUser = webUserService.findByUserName(userName);
 
         if (existingUser != null) {
             theModel.addAttribute("webUser", new WebUser());
@@ -74,7 +72,7 @@ public class RegistrationController {
         }
 
         //create user account and store in the database for user and employee
-        userService.save(theWebUser);
+        webUserService.save(theWebUser);
 
         logger.info("Successfully created user: " + userName);
 

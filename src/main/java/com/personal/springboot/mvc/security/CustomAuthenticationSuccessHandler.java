@@ -2,7 +2,7 @@ package com.personal.springboot.mvc.security;
 
 
 import com.personal.springboot.mvc.entity.User;
-import com.personal.springboot.mvc.service.UserService;
+import com.personal.springboot.mvc.service.WebUserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,10 +17,10 @@ import java.io.IOException;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     // inject to use to look for user info from database after log in
-    private UserService userService;
+    private WebUserService webUserService;
 
-    public CustomAuthenticationSuccessHandler(UserService theUserService) {
-        userService = theUserService;
+    public CustomAuthenticationSuccessHandler(WebUserService theWebUserService) {
+        webUserService = theWebUserService;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         // get the name of successful log in user
         String userName = authentication.getName();
         System.out.println("userName = " + userName);
-        User theUser = userService.findByUserName(userName);
+        User theUser = webUserService.findByUserName(userName);
 
         // add user object to the http session
         // by default, not full info can be display, usually only username, encoded password and roles

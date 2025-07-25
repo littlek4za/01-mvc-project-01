@@ -4,7 +4,7 @@ import com.personal.springboot.mvc.dao.EmployeeDAO;
 import com.personal.springboot.mvc.dao.RoleDAO;
 import com.personal.springboot.mvc.dao.UserDAO;
 import com.personal.springboot.mvc.entity.Employee;
-import com.personal.springboot.mvc.service.UserService;
+import com.personal.springboot.mvc.service.WebUserService;
 import com.personal.springboot.mvc.user.WebUser;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +19,7 @@ public class MVCApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(RoleDAO roleDAO, UserDAO userDAO, UserService userService, EmployeeDAO employeeDAO) {
+    public CommandLineRunner commandLineRunner(RoleDAO roleDAO, UserDAO userDAO, WebUserService webUserService, EmployeeDAO employeeDAO) {
         return runner -> {
             findRoleByUserName(roleDAO);
             //findUserByUserName(userDAO);
@@ -34,7 +34,7 @@ public class MVCApplication {
         System.out.println("Id for role employee = " + id);
     }
 
-    private void findEmployeeAllInfo(EmployeeDAO employeeDAO, UserService userService) {
+    private void findEmployeeAllInfo(EmployeeDAO employeeDAO, WebUserService webUserService) {
         int id = 3;
         Employee theEmployee1 = employeeDAO.findByIdWithUser(id);
         System.out.println("The Employee 1: " + "\n");
@@ -42,26 +42,26 @@ public class MVCApplication {
         System.out.println(theEmployee1.getUser());
         System.out.println(theEmployee1.getUser().getRoles());
 
-        Employee theEmployee2 = userService.findEmployeeByIdWithUserInfo(3);
+        Employee theEmployee2 = webUserService.findEmployeeByIdWithUserInfo(3);
         System.out.println("The Employee 2: " + "\n");
         System.out.println(theEmployee1);
         System.out.println(theEmployee1.getUser());
         System.out.println(theEmployee1.getUser().getRoles());
 
-        WebUser webUser = userService.toWebUser(theEmployee2);
+        WebUser webUser = webUserService.toWebUser(theEmployee2);
         System.out.println(webUser);
     }
 
 
-    private void findWebUserAndUpdate(UserService userService, RoleDAO roleDAO, UserDAO userDAO) {
-        Employee employee = userService.findEmployeeByIdWithUserInfo(3);
+    private void findWebUserAndUpdate(WebUserService webUserService, RoleDAO roleDAO, UserDAO userDAO) {
+        Employee employee = webUserService.findEmployeeByIdWithUserInfo(3);
 
-        WebUser webUser = userService.toWebUser(employee);
+        WebUser webUser = webUserService.toWebUser(employee);
         System.out.println(webUser);
 
         webUser.setLastName("Ken");
         System.out.println(webUser);
-        userService.update(webUser);
+        webUserService.update(webUser);
     }
 
 

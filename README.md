@@ -22,7 +22,7 @@ Make sure the following are installed on your system:
 * **MySQL Server and Workbench**
 
 ---
-### Database Setup
+## Database Setup
 1. Start MySQL Workbench and create a connection to your local MySQL server.
 2. Open the provided SQL script, included in `sql/`
 3. Run the script to create the `employee_directory` database and relevant tables.
@@ -40,9 +40,8 @@ spring.datasource.password=your_db_password
 * `<your_host>` with your MySQL host (e.g., localhost)
 * `<your_port>` with your MySQL port (default is 3306)
 * `your_db_username` and `your_db_password` with your actual MySQL credentials
-  
 ---
-### Running the application
+## Running the application
 1. Clone the Repository
 ```bash
 git clone https://github.com/littlek4za/01-mvc-project-01.git
@@ -58,7 +57,7 @@ mvn spring-boot:run
 ```
 
 ---
-### Accessing the Application
+## Accessing the Application
 Once the app is running, open your browser and visit:
 http://localhost:8080
 
@@ -79,4 +78,102 @@ Default log in info:
 4. User3 (ROLE = Employee)
 * username=user3
 * password=user3
+---
+## API Endpoints
+This application exposes the following RESTful API endpoints to manage employees and their associated user accounts.
+
+### Create Employee
+`POST` `/api/employees`
+
+**Usage**: Registers a new employee with user details.
+
+**Request Body:**
+```json
+{
+  "firstName": "Admin",
+  "lastName": "Company",
+  "email": "admin@testmail.com",
+  "userDTO": {
+    "userName": "admin",
+    "password": "abc123",
+    "enable": true,
+    "roles": [
+      "ROLE_EMPLOYEE",
+      "ROLE_MANAGER",
+      "ROLE_ADMIN"
+    ],
+    "password":"test123"
+  }
+}
+```
+### Get All Employees
+`GET` `/api/employees`
+
+**Usage** : Returns a list of all employees.
+
+### Get Employee by ID
+`GET` `/api/employees/{id}`
+
+**Usage** : Fetch details of a specific employee by ID.
+
+### Update Entire Employee
+`PUT` `/api/employees`
+
+**Usage** : Updates an existing employee. The full object must be provided.
+
+**Note** : Password changes are not allowed through the API. Password can only be changed via the web page interface.
+
+**Request Body:**
+
+```json
+{
+  "id": 1,
+  "firstName": "Admin",
+  "lastName": "Company",
+  "email": "admin@testmail.com",
+  "userDTO": {
+    "userName": "admin",
+    "password": "abc123",
+    "enable": true,
+    "roles": [
+      "ROLE_EMPLOYEE",
+      "ROLE_MANAGER",
+      "ROLE_ADMIN"
+    ]
+  }
+}
+
+```
+### Patch Partial Employee Data
+`PATCH` `/api/employees/{id}`
+
+**Usage** : Updates only specific fields of the employee. You may provide only the fields you want to update.
+
+**Note** : Password changes are not allowed through the API. Password can only be changed via the web page interface.
+**Request Body:**
+
+```json
+{
+  "firstName": "Admin",
+  "lastName": "Company",
+  "email": "admin@testmail.com",
+  "userDTO": {
+    "userName": "admin",
+    "password": "abc123",
+    "enable": true,
+    "roles": [
+      "ROLE_EMPLOYEE",
+      "ROLE_MANAGER",
+      "ROLE_ADMIN"
+    ]
+  }
+}
+```
+### Delete Employee
+`DELETE` `/api/employees/{id}`
+
+**Usage** : Deletes an employee by ID.
+
+**Note** : Admin user cannot be deleted.
+
 

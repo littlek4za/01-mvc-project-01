@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class WebUserServiceImpl implements WebUserService {
 
     private UserDAO userDAO;
     private RoleDAO roleDAO;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, RoleDAO roleDAO, EmployeeDAO employeeDAO, BCryptPasswordEncoder passwordEncoder) {
+    public WebUserServiceImpl(UserDAO userDAO, RoleDAO roleDAO, EmployeeDAO employeeDAO, BCryptPasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.roleDAO = roleDAO;
         this.employeeDAO = employeeDAO;
@@ -191,5 +191,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean userExists(String username) {
         return false;
+    }
+
+    public List<Role> findAllRoles() {
+        return roleDAO.findAllRole();
+    }
+
+    public Long findRoleIdByName(String roleName) {
+        return roleDAO.findIdByName(roleName);
     }
 }
