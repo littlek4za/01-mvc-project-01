@@ -82,7 +82,8 @@ Default log in info:
 ## API Endpoints
 This application exposes the following RESTful API endpoints to manage employees and their associated user accounts.
 
-### Create Employee
+
+### <ins>Create Employee</ins>
 `POST` `/api/employees`
 
 **Usage**: Registers a new employee with user details.
@@ -106,17 +107,21 @@ This application exposes the following RESTful API endpoints to manage employees
   }
 }
 ```
-### Get All Employees
+
+
+### <ins>Get All Employees</ins>
 `GET` `/api/employees`
 
 **Usage** : Returns a list of all employees.
 
-### Get Employee by ID
+
+### <ins>Get Employee by ID</ins>
 `GET` `/api/employees/{id}`
 
 **Usage** : Fetch details of a specific employee by ID.
 
-### Update Entire Employee
+
+### <ins>Update Entire Employee</ins>
 `PUT` `/api/employees`
 
 **Usage** : Updates an existing employee. The full object must be provided.
@@ -144,7 +149,9 @@ This application exposes the following RESTful API endpoints to manage employees
 }
 
 ```
-### Patch Partial Employee Data
+
+
+### <ins>Patch Partial Employee Data</ins>
 `PATCH` `/api/employees/{id}`
 
 **Usage** : Updates only specific fields of the employee. You may provide only the fields you want to update.
@@ -169,7 +176,9 @@ This application exposes the following RESTful API endpoints to manage employees
   }
 }
 ```
-### Delete Employee
+
+
+### <ins>Delete Employee</ins>
 `DELETE` `/api/employees/{id}`
 
 **Usage** : Deletes an employee by ID.
