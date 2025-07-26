@@ -78,6 +78,13 @@ Default log in info:
 4. User3 (ROLE = Employee)
 * username=user3
 * password=user3
+
+| Role | REST Permissions | MVC Permissions |
+|---|---|---|
+| Admin | create, request, update, delete | create, request, update, delete |
+| Manager | create, request, update | create, request, update |
+| Employee | request | create, request |
+
 ---
 ## API Endpoints
 This application exposes the following RESTful API endpoints to manage employees and their associated user accounts.
