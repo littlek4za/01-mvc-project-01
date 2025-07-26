@@ -4,11 +4,11 @@ import com.personal.springboot.mvc.entity.Employee;
 import com.personal.springboot.mvc.entity.Role;
 import com.personal.springboot.mvc.entity.User;
 import com.personal.springboot.mvc.user.WebUser;
-import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface WebUserService extends UserDetailsManager {
+public interface WebUserService extends UserDetailsService {
 
     public User findByUserName(String userName);
 
@@ -29,5 +29,4 @@ public interface WebUserService extends UserDetailsManager {
     List<Role> findAllRoles();
 
     Long findRoleIdByName(String roleName);
-
 }

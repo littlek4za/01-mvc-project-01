@@ -1,14 +1,15 @@
 package com.personal.springboot.mvc.rest.exception;
 
+import com.personal.springboot.mvc.rest.EmployeeRestController;
 import com.personal.springboot.mvc.service.exception.EmployeeNotFoundException;
 import com.personal.springboot.mvc.service.exception.NoPasswordUpdateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
-public class GlobalExceptionHandler {
+@RestControllerAdvice(assignableTypes = EmployeeRestController.class)
+public class RestExceptionHandler {
 
     @ExceptionHandler(DuplicateUsernameException.class)
     public ResponseEntity<EmployeeRestErrorResponse> handleDuplicateUserName(DuplicateUsernameException e) {

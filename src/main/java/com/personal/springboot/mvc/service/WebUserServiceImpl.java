@@ -9,6 +9,7 @@ import com.personal.springboot.mvc.entity.Role;
 import com.personal.springboot.mvc.user.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,7 +37,6 @@ public class WebUserServiceImpl implements WebUserService {
         this.employeeDAO = employeeDAO;
         this.passwordEncoder = passwordEncoder;
     }
-
 
     @Override
     public User findByUserName(String userName) {
@@ -71,6 +71,7 @@ public class WebUserServiceImpl implements WebUserService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
     public void update(WebUser webUser) {
         System.out.println("WebUser Info: " + webUser);
         Employee existingEmployee = employeeDAO.findByIdWithUser(webUser.getEmployeeId());
@@ -128,6 +129,7 @@ public class WebUserServiceImpl implements WebUserService {
 
     @Transactional
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(int employeeId) {
         Employee employee = employeeDAO.findByIdWithUser(employeeId);
         User user = employee.getUser();
@@ -157,40 +159,16 @@ public class WebUserServiceImpl implements WebUserService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),
                 user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
+                mapRolesToAuthorities(user.getRoles())); //use the custom method, just put in our roles, and it will convert
     }
 
     // Spring Security uses GrantedAuthority to represent roles or permissions
-    // convert custom role object into a list of SimpleGrantedAuthority
+    // custom method to convert custom role object into a list of SimpleGrantedAuthority
+    // something like a collection of new SimpleGrantedAuthority("ROLE_XXX")
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public void createUser(UserDetails user) {
-
-    }
-
-    @Override
-    public void updateUser(UserDetails user) {
-
-    }
-
-    @Override
-    public void deleteUser(String username) {
-
-    }
-
-    @Override
-    public void changePassword(String oldPassword, String newPassword) {
-
-    }
-
-    @Override
-    public boolean userExists(String username) {
-        return false;
     }
 
     public List<Role> findAllRoles() {
@@ -200,4 +178,5 @@ public class WebUserServiceImpl implements WebUserService {
     public Long findRoleIdByName(String roleName) {
         return roleDAO.findIdByName(roleName);
     }
+
 }

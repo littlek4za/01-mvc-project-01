@@ -43,6 +43,7 @@
             <td th:text="${tempEmployee.user != null ? tempEmployee.user.id : 'No User Id'}"></td>
             <!-- Add update and delete button Link -->
             <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+<!--            <th:block th:if="${#authorization.expression('hasAnyRole(''ADMIN'',''MANAGER'',''EMPLOYEE'')')}">-->
                 <td>
                     <a th:href="@{/employee/showFormForUpdate(employeeId=${tempEmployee.id})}"
                        class="btn btn-info btn-sm">Update
