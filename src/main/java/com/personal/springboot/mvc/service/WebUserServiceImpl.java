@@ -159,6 +159,10 @@ public class WebUserServiceImpl implements WebUserService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUserName(),
                 user.getPassword(),
+                user.getEnable(),
+                true,
+                true,
+                true,
                 mapRolesToAuthorities(user.getRoles())); //use the custom method, just put in our roles, and it will convert
     }
 

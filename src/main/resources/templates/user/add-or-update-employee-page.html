@@ -14,7 +14,6 @@
 
     <!-- Hidden Parameter to be passed -->
     <input type="hidden" th:field="*{employeeId}"/>
-    <input type="hidden" th:field="*{enabled}"/>
 
     <!--UserName input-->
     <p>
@@ -94,6 +93,13 @@
             <li th:each="err : ${#fields.errors('roleIds')}" th:text="'Error: ' + ${err}"/>
         </ul>
     </div>
+
+<!--    Enable Selection-->
+    <p>
+        Enable User<br>
+        <input type="checkbox" th:field="*{enabled}"/>
+    </p>
+
 
     <!--Update/Save Button-->
     <div>
