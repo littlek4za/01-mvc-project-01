@@ -29,4 +29,7 @@ public interface WebUserService extends UserDetailsService {
     List<Role> findAllRoles();
 
     Long findRoleIdByName(String roleName);
+
+    Employee findByUser(User user);
+
 }

@@ -13,7 +13,19 @@ Welcome to the home page!
 <br><br>
 <hr>
 <p>
-    Logged in as: <span th:text="${userName}"></span>
+    Logged in as
+    <br>
+    Username: <span th:text="${userName}"></span>
+    <br>
+    First Name: <span th:text="${firstName}"></span>
+    <br>
+    Last Name: <span th:text="${lastName}"></span>
+    <br>
+    Roles:
+    <ul>
+        <li th:each="role : ${roles}" th:text="${role.getName}"></li>
+    </ul>
+
 </p>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout"/>

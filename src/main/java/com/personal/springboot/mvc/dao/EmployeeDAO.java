@@ -1,6 +1,7 @@
 package com.personal.springboot.mvc.dao;
 
 import com.personal.springboot.mvc.entity.Employee;
+import com.personal.springboot.mvc.entity.User;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface EmployeeDAO {
     Employee findByIdWithUser(int theId);
 
     List<String> findAllEmail();
+
+    Employee findEmployeeByUser(User user);
 }

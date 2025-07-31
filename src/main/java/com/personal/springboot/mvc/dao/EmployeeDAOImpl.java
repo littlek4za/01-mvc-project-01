@@ -1,6 +1,7 @@
 package com.personal.springboot.mvc.dao;
 
 import com.personal.springboot.mvc.entity.Employee;
+import com.personal.springboot.mvc.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
@@ -59,5 +60,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         TypedQuery<String> query = entityManager.createQuery(
                 "SELECT e.email FROM Employee e", String.class);
         return query.getResultList();
+    }
+
+    @Override
+    public Employee findEmployeeByUser(User theUser) {
+        TypedQuery<Employee> query = entityManager.createQuery(
+                "SELECT e FROM Employee e " +
+                        "JOIN FETCH e.user u " +
+                        "LEFT JOIN FETCH u.roles " +
+                        "WHERE u = :user", Employee.class
+        );
+        query.setParameter("user", theUser);
+
+        return query.getSingleResult();
     }
 }

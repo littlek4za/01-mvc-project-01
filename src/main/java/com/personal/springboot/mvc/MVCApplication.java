@@ -4,6 +4,7 @@ import com.personal.springboot.mvc.dao.EmployeeDAO;
 import com.personal.springboot.mvc.dao.RoleDAO;
 import com.personal.springboot.mvc.dao.UserDAO;
 import com.personal.springboot.mvc.entity.Employee;
+import com.personal.springboot.mvc.entity.User;
 import com.personal.springboot.mvc.service.WebUserService;
 import com.personal.springboot.mvc.user.WebUser;
 import org.springframework.boot.CommandLineRunner;
@@ -21,12 +22,20 @@ public class MVCApplication {
     @Bean
     public CommandLineRunner commandLineRunner(RoleDAO roleDAO, UserDAO userDAO, WebUserService webUserService, EmployeeDAO employeeDAO) {
         return runner -> {
-            findRoleByUserName(roleDAO);
+            //testing and troubleshoot purpose
+            //findRoleByUserName(roleDAO);
             //findUserByUserName(userDAO);
             //findWebUserAndUpdate(userService,roleDAO,userDAO);
             //findEmployeeAllInfo(employeeDAO, userService);
             //findRoleIdByRoleName(roleDAO);
+            //findEmployeeByUser(employeeDAO, userDAO);
         };
+    }
+
+    private void findEmployeeByUser(EmployeeDAO theEmployeeDAO, UserDAO theUserDAO) {
+        User admin = theUserDAO.findByUserName("admin");
+        Employee employee = theEmployeeDAO.findEmployeeByUser(admin);
+        System.out.println(employee);
     }
 
     private void findRoleIdByRoleName(RoleDAO roleDAO) {

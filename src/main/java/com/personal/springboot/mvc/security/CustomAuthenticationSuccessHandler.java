@@ -1,6 +1,7 @@
 package com.personal.springboot.mvc.security;
 
 
+import com.personal.springboot.mvc.entity.Employee;
 import com.personal.springboot.mvc.entity.User;
 import com.personal.springboot.mvc.service.WebUserService;
 import jakarta.servlet.ServletException;
@@ -33,12 +34,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String userName = authentication.getName();
         System.out.println("userName = " + userName);
         User theUser = webUserService.findByUserName(userName);
+        Employee theEmployee = webUserService.findByUser(theUser);
 
         // add user object to the http session
         // by default, not full info can be display, usually only username, encoded password and roles
         // using custom can pull in full info(firstName, lastName etc) and use it when retrieve from session
         HttpSession session = request.getSession();
         session.setAttribute("user", theUser);
+        session.setAttribute("employee", theEmployee);
 
         //send the user to rootpage
         response.sendRedirect(request.getContextPath() + "/");

@@ -183,4 +183,9 @@ public class WebUserServiceImpl implements WebUserService {
         return roleDAO.findIdByName(roleName);
     }
 
+    @Override
+    public Employee findByUser(User user) {
+        return employeeDAO.findEmployeeByUser(user);
+    }
+
 }
