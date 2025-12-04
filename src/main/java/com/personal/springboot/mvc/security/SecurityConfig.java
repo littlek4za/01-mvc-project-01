@@ -4,7 +4,6 @@ import com.personal.springboot.mvc.service.WebUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,13 +22,6 @@ public class SecurityConfig {
 
     // this tell spring security how to verify users - using db and also password encoder which is from WebUserService
     // WebUserService which is an extends of UserDetailsService has method to load username and role and password
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(WebUserService webUserService) {
-        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(webUserService);
-        auth.setPasswordEncoder(passwordEncoder());
-        return auth;
-    }
 
 
 //    @Bean
@@ -55,7 +47,6 @@ public class SecurityConfig {
             AuthenticationSuccessHandler customAuthenticationSuccessHandler
     ) throws Exception {
         http
-                .authenticationProvider(authenticationProvider(webUserService)) //need to plug in the authenticationProvider to spring security manually if not spring might not know to use it
                 .authorizeHttpRequests(configurer -> configurer //url authorized rules
                         //web authorize
                         .requestMatchers("/register/**").permitAll() // Permit register pages publicly

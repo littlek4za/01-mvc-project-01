@@ -1,8 +1,6 @@
 package com.personal.springboot.mvc.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.personal.springboot.mvc.entity.Role;
-import jakarta.persistence.*;
 
 import java.util.List;
 

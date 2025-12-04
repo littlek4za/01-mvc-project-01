@@ -1,6 +1,5 @@
 package com.personal.springboot.mvc.controller;
 
-import com.personal.springboot.mvc.dao.RoleDAO;
 import com.personal.springboot.mvc.entity.Employee;
 import com.personal.springboot.mvc.service.WebUserService;
 import com.personal.springboot.mvc.user.OnUpdate;
@@ -19,12 +18,10 @@ import java.util.List;
 public class UserController {
 
     private WebUserService webUserService;
-    private RoleDAO roleDAO;
 
     @Autowired
-    public UserController(WebUserService webUserService, RoleDAO roleDAO) {
+    public UserController(WebUserService webUserService) {
         this.webUserService = webUserService;
-        this.roleDAO = roleDAO;
     }
 
     @GetMapping("/list")

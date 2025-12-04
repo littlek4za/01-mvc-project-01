@@ -1,10 +1,5 @@
 package com.personal.springboot.mvc.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.personal.springboot.mvc.entity.Employee;
-import com.personal.springboot.mvc.entity.User;
-import jakarta.persistence.*;
-
 public class EmployeeDTO {
 
     private int id;
