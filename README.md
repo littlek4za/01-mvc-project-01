@@ -109,8 +109,7 @@ This application exposes the following RESTful API endpoints to manage employees
       "ROLE_EMPLOYEE",
       "ROLE_MANAGER",
       "ROLE_ADMIN"
-    ],
-    "password":"test123"
+    ]
   }
 }
 ```
